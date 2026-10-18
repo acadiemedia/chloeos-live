@@ -103,55 +103,55 @@ const _openApp=openApp;
 openApp=function(id){currentAppId=id;_openApp(id);};
 
 
-// Global AI tool functions
-async function aiRun(toolId){
-  const key = localStorage.getItem('chloeos_gemini_key') || '';
-  if(!key){ alert('Enter your Gemini API key first (tap the key icon)'); return; }
-  const configs = {
-    social: {input:'s-in', output:'s-out', sys:"Analyze this text for tone, emotional subtext, power dynamics, and communication pitfalls. Then suggest 2-3 better response options with brief explanations. Be direct. Use clear sections.", loading:'Analyzing...'},
-    idea: {input:'i-in', output:'i-out', sys:"Take this idea and refract it: unexpected angles, hidden assumptions, counter-intuitive applications, analogies from unrelated fields, 3 devil's advocate questions. Be provocative and specific. Use clear sections.", loading:'Refracting...'},
-    conseq: {input:'q-in', output:'q-out', sys:"Map the consequences of this decision: short-term vs long-term, hidden risks, unforeseen opportunities, who is affected, what to monitor. Be concrete and honest. Use clear sections.", loading:'Mapping...'},
-    story: {input:'n-in', output:'n-out', sys:"Turn this into a compelling story or vivid analogy. Make it memorable and human.", loading:'Weaving...'},
-    learn: {input:'l-in', output:'l-out', sys:"Create a personalized micro-learning path: 3 diagnostic questions, 5 bite-sized objectives in order, one hands-on exercise per objective. Be specific.", loading:'Charting...'}
-  };
-  const c = configs[toolId];
-  const text = document.getElementById(c.input).value.trim();
-  if(!text) return;
-  const out = document.getElementById(c.output);
-  out.innerHTML = c.loading;
-  try {
-    let prompt = text;
-    if(toolId === 'story'){
-      const aud = document.getElementById('n-aud').value;
-      prompt = "Target audience: " + aud + "\n\n" + text;
-    }
-    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({contents:[{parts:[{text: c.sys + "\n\n" + prompt}]}], generationConfig:{temperature:0.7, maxOutputTokens:2048}})
-    });
-    if(!res.ok) throw new Error('API error ' + res.status);
-    const d = await res.json();
-    out.innerHTML = d.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-  } catch(e) {
-    out.innerHTML = 'Error: ' + e.message;
+// Simple AI tools - global functions
+function saveGeminiKey(){
+  var k = document.getElementById('gemini-key').value.trim();
+  if(k){
+    localStorage.setItem('chloeos_gemini_key', k);
+    document.getElementById('key-status').innerHTML = '<span style="color:#34c759">✓ Saved</span>';
+    document.getElementById('key-status').style.color = '#34c759';
   }
 }
-function aiSaveKey(){
-  const k = document.getElementById('ai-key-input').value.trim();
-  if(k){ localStorage.setItem('chloeos_gemini_key', k); }
-  // Refresh current app to show saved state
-  if(window._currentApp) openApp(window._currentApp);
+function runAI(toolId){
+  var key = localStorage.getItem('chloeos_gemini_key') || '';
+  var keyInput = document.getElementById('gemini-key');
+  if(keyInput && keyInput.value.trim()){ key = keyInput.value.trim(); localStorage.setItem('chloeos_gemini_key', key); }
+  if(!key){ alert('Paste your free Gemini API key first (get one at aistudio.google.com)'); return; }
+  var cfg = {
+    social: {i:'s-in', o:'s-out', p:"Analyze tone, subtext, power dynamics. Suggest 2-3 better responses with why. Be direct. Clear sections.", l:'Analyzing...'},
+    idea: {i:'i-in', o:'i-out', p:"Refract this idea: unexpected angles, hidden assumptions, counter-intuitive uses, analogies from other fields, 3 devil's advocate questions. Be specific.", l:'Refracting...'},
+    conseq: {i:'q-in', o:'q-out', p:"Map consequences: short vs long term, hidden risks, opportunities, who is affected, what to monitor. Be concrete.", l:'Mapping...'},
+    story: {i:'n-in', o:'n-out', p:"Turn into a compelling story or vivid analogy. Memorable and human.", l:'Weaving...'},
+    learn: {i:'l-in', o:'l-out', p:"Create micro-learning path: 3 diagnostic questions, 5 objectives in order, one exercise each. Be specific.", l:'Charting...'}
+  }[toolId];
+  var text = document.getElementById(cfg.i).value.trim();
+  if(!text) return;
+  var out = document.getElementById(cfg.o);
+  out.textContent = cfg.l;
+  var prompt = text;
+  if(toolId === 'story'){
+    var aud = document.getElementById('n-aud').value;
+    prompt = 'For ' + aud + ': ' + text;
+  }
+  fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({contents:[{parts:[{text: cfg.p + '\n\n' + prompt}]}], generationConfig:{temperature:0.7, maxOutputTokens:2048}})
+  }).then(function(r){ if(!r.ok) throw new Error('API '+r.status); return r.json(); })
+  .then(function(d){ out.innerHTML = d.candidates[0].content.parts[0].text.replace(/\n/g, '<br>'); })
+  .catch(function(e){ out.textContent = 'Error: ' + e.message; });
 }
-function aiKeyBanner(){
-  const k = localStorage.getItem('chloeos_gemini_key') || '';
-  if(k) return '<div style="text-align:center;color:#34c759;font-size:13px;padding:10px">✓ API key saved</div>';
-  return '<div style="background:#fff;border-radius:12px;padding:14px;margin-bottom:12px"><div style="font-size:13px;margin-bottom:8px"><b>Free Gemini API key needed</b><br><span style="color:#86868b">Get one at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#0072ff">aistudio.google.com</a></span></div><div style="display:flex;gap:8px"><input type="text" id="ai-key-input" placeholder="Paste key..." style="flex:1"><button onclick="aiSaveKey()" style="background:#0072ff;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:600">Save</button></div></div>';
-}
-// Track current app for key save refresh
-const _origOpenApp = openApp;
-openApp = function(id){ window._currentApp = id; _origOpenApp(id); };
-
+// Show saved key status on app open
+var _openApp2 = openApp;
+openApp = function(id){
+  _openApp2(id);
+  var ks = document.getElementById('key-status');
+  var ki = document.getElementById('gemini-key');
+  if(ks && ki){
+    var saved = localStorage.getItem('chloeos_gemini_key') || '';
+    if(saved){ ki.value = saved; ks.innerHTML = '<span style="color:#34c759">✓ Key saved</span>'; }
+  }
+};
 const APPS=[
 {id:'words',icon:'📝',bg:'linear-gradient(135deg,#34c759,#00c6a0)',name:'Word Counter',html:`<div class="card"><textarea id="w-in" rows="8" placeholder="Paste or type text..." oninput="wGo()"></textarea><div class="out" id="w-out">Start typing.</div></div>`,js:`function wGo(){const t=document.getElementById('w-in').value;const w=t.trim()?t.trim().split(/\\s+/).length:0;const ch=t.length;const sn=t.split(/[.!?]+/).filter(s=>s.trim()).length;document.getElementById('w-out').innerHTML='<b>'+w+'</b> words<br><b>'+ch+'</b> characters<br><b>'+sn+'</b> sentences<br><b>~'+Math.max(1,Math.ceil(w/200))+' min</b> read';}`},
 {id:'color',actions:`<button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('c-in').value)">Copy HEX</button>`,icon:'🎨',bg:'linear-gradient(135deg,#ff9500,#ff2d55)',name:'Color Picker',html:`<div class="card"><input type="color" id="c-in" value="#0072ff" oninput="cGo()" style="width:100%;height:80px;border:none;border-radius:12px;padding:0;cursor:pointer"><div class="out" id="c-out" style="margin-top:16px"></div></div>`,js:`function cGo(){const h=document.getElementById('c-in').value;const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);document.getElementById('c-out').innerHTML='<div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:10px;background:'+h+'"></div><b style="font-size:20px">'+h.toUpperCase()+'</b></div><div style="margin-top:8px">RGB: <b>rgb('+r+', '+g+', '+b+')</b></div>';}cGo();`},
@@ -184,11 +184,11 @@ navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:fals
 mgStream=s;mgTrack=s.getVideoTracks()[0];v.srcObject=s;v.style.transform='scale(4)';
 window._mgStop=function(){if(mgStream){mgStream.getTracks().forEach(function(t){t.stop()});mgStream=null;}};
 }).catch(function(){document.getElementById('mg-err').style.display='flex';v.style.display='none';});})();
-`},{id:'social',icon:'💬',bg:'linear-gradient(135deg,#5e5ce6,#0072ff)',name:'Social Decoder',html:'<div class="card"><div id="ai-banner"></div><textarea id="s-in" rows="6" placeholder="Paste a message or conversation..."></textarea><div class="out" id="s-out" style="min-height:60px">Analysis appears here.</div></div>',actions:'<button class="btn" onclick="aiRun(\'social\')">Analyze</button>'},
-{id:'idea',icon:'💡',bg:'linear-gradient(135deg,#ff9500,#ffcc00)',name:'Idea Refractor',html:'<div class="card"><div id="ai-banner"></div><textarea id="i-in" rows="6" placeholder="Describe your idea..."></textarea><div class="out" id="i-out" style="min-height:60px">Perspectives appear here.</div></div>',actions:'<button class="btn" onclick="aiRun(\'idea\')">Refract</button>'},
-{id:'conseq',icon:'🔮',bg:'linear-gradient(135deg,#8e4ec6,#d6409f)',name:'Consequence Map',html:'<div class="card"><div id="ai-banner"></div><textarea id="q-in" rows="6" placeholder="Describe a decision..."></textarea><div class="out" id="q-out" style="min-height:60px">Map appears here.</div></div>',actions:'<button class="btn" onclick="aiRun(\'conseq\')">Map It</button>'},
-{id:'story',icon:'📖',bg:'linear-gradient(135deg,#00a699,#34c759)',name:'Narrative Weaver',html:'<div class="card"><div id="ai-banner"></div><textarea id="n-in" rows="5" placeholder="Paste facts or a concept..."></textarea><select id="n-aud" style="width:100%;padding:12px;border-radius:12px;border:1px solid #d2d2d7;margin:8px 0;font-size:15px"><option value="a smart friend">Smart friend</option><option value="a child">A child</option><option value="a CEO">A CEO</option><option value="an artist">An artist</option></select><div class="out" id="n-out" style="min-height:60px">Story appears here.</div></div>',actions:'<button class="btn" onclick="aiRun(\'story\')">Weave It</button>'},
-{id:'learn',icon:'🎓',bg:'linear-gradient(135deg,#ff375f,#ff9f0a)',name:'Skill Scribe',html:'<div class="card"><div id="ai-banner"></div><textarea id="l-in" rows="5" placeholder="What do you want to learn?"></textarea><div class="out" id="l-out" style="min-height:60px">Learning path appears here.</div></div>',actions:'<button class="btn" onclick="aiRun(\'learn\')">Build My Path</button>'},
+`},{id:'social',icon:'💬',bg:'linear-gradient(135deg,#5e5ce6,#0072ff)',name:'Social Decoder',html:'<div class="card"><div style="background:#f2f2f7;border-radius:12px;padding:12px;margin-bottom:12px"><div style="font-size:12px;color:#86868b;margin-bottom:6px">Gemini API key (free at aistudio.google.com):</div><div style="display:flex;gap:8px"><input type="password" id="gemini-key" placeholder="Paste key..." style="flex:1;margin:0"><button onclick="saveGeminiKey()" style="background:#0072ff;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-weight:600;white-space:nowrap">Save</button></div><div id="key-status" style="font-size:12px;margin-top:6px"></div></div><textarea id="s-in" rows="5" placeholder="Paste a message or conversation..."></textarea><div class="out" id="s-out" style="min-height:60px">Analysis appears here.</div></div>',actions:'<button class="btn" onclick="runAI(\'social\')">Analyze</button>'},
+{id:'idea',icon:'💡',bg:'linear-gradient(135deg,#ff9500,#ffcc00)',name:'Idea Refractor',html:'<div class="card"><div style="background:#f2f2f7;border-radius:12px;padding:12px;margin-bottom:12px"><div style="font-size:12px;color:#86868b;margin-bottom:6px">Gemini API key (free at aistudio.google.com):</div><div style="display:flex;gap:8px"><input type="password" id="gemini-key" placeholder="Paste key..." style="flex:1;margin:0"><button onclick="saveGeminiKey()" style="background:#0072ff;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-weight:600;white-space:nowrap">Save</button></div><div id="key-status" style="font-size:12px;margin-top:6px"></div></div><textarea id="i-in" rows="5" placeholder="Describe your idea..."></textarea><div class="out" id="i-out" style="min-height:60px">Perspectives appear here.</div></div>',actions:'<button class="btn" onclick="runAI(\'idea\')">Refract</button>'},
+{id:'conseq',icon:'🔮',bg:'linear-gradient(135deg,#8e4ec6,#d6409f)',name:'Consequence Map',html:'<div class="card"><div style="background:#f2f2f7;border-radius:12px;padding:12px;margin-bottom:12px"><div style="font-size:12px;color:#86868b;margin-bottom:6px">Gemini API key (free at aistudio.google.com):</div><div style="display:flex;gap:8px"><input type="password" id="gemini-key" placeholder="Paste key..." style="flex:1;margin:0"><button onclick="saveGeminiKey()" style="background:#0072ff;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-weight:600;white-space:nowrap">Save</button></div><div id="key-status" style="font-size:12px;margin-top:6px"></div></div><textarea id="q-in" rows="5" placeholder="Describe a decision..."></textarea><div class="out" id="q-out" style="min-height:60px">Map appears here.</div></div>',actions:'<button class="btn" onclick="runAI(\'conseq\')">Map It</button>'},
+{id:'story',icon:'📖',bg:'linear-gradient(135deg,#00a699,#34c759)',name:'Narrative Weaver',html:'<div class="card"><div style="background:#f2f2f7;border-radius:12px;padding:12px;margin-bottom:12px"><div style="font-size:12px;color:#86868b;margin-bottom:6px">Gemini API key (free at aistudio.google.com):</div><div style="display:flex;gap:8px"><input type="password" id="gemini-key" placeholder="Paste key..." style="flex:1;margin:0"><button onclick="saveGeminiKey()" style="background:#0072ff;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-weight:600;white-space:nowrap">Save</button></div><div id="key-status" style="font-size:12px;margin-top:6px"></div></div><textarea id="n-in" rows="5" placeholder="Paste facts or a concept..."></textarea><select id="n-aud" style="width:100%;padding:12px;border-radius:12px;border:1px solid #d2d2d7;margin:8px 0;font-size:15px"><option value="a smart friend">Smart friend</option><option value="a child">A child</option><option value="a CEO">A CEO</option><option value="an artist">An artist</option></select><div class="out" id="n-out" style="min-height:60px">Story appears here.</div></div>',actions:'<button class="btn" onclick="runAI(\'story\')">Weave It</button>'},
+{id:'learn',icon:'🎓',bg:'linear-gradient(135deg,#ff375f,#ff9f0a)',name:'Skill Scribe',html:'<div class="card"><div style="background:#f2f2f7;border-radius:12px;padding:12px;margin-bottom:12px"><div style="font-size:12px;color:#86868b;margin-bottom:6px">Gemini API key (free at aistudio.google.com):</div><div style="display:flex;gap:8px"><input type="password" id="gemini-key" placeholder="Paste key..." style="flex:1;margin:0"><button onclick="saveGeminiKey()" style="background:#0072ff;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-weight:600;white-space:nowrap">Save</button></div><div id="key-status" style="font-size:12px;margin-top:6px"></div></div><textarea id="l-in" rows="5" placeholder="What do you want to learn?"></textarea><div class="out" id="l-out" style="min-height:60px">Learning path appears here.</div></div>',actions:'<button class="btn" onclick="runAI(\'learn\')">Build My Path</button>'},
 {id:'yt',icon:'▶',bg:'linear-gradient(135deg,#ff3b30,#ff2d55)',name:'YouTube',url:'https://www.youtube.com/@Chloe_OS',dock:1},
 {id:'tt',icon:'♪',bg:'linear-gradient(135deg,#000,#333)',name:'TikTok',url:'https://www.tiktok.com/@chloeosmaster',dock:1},
 ];
@@ -207,8 +207,7 @@ function openApp(id){
 const a=APPS.find(x=>x.id===id);if(!a)return;
 document.getElementById('apptitle').textContent=a.name;
 document.getElementById('appbody').innerHTML=a.html;
-  var banner=document.getElementById('ai-banner');
-  if(banner && typeof aiKeyBanner==='function'){ banner.innerHTML=aiKeyBanner(); }
+
 const ab=document.getElementById('appactions');
 var closeBtn='<button class="btn" onclick="closeApp()" style="background:#ff3b30;flex:0 0 52px;padding:14px 0">✕</button>';
 if(a.actions){ab.innerHTML=closeBtn+a.actions;ab.style.display='flex';}
