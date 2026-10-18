@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHLOE — I am Chloe</title>
+<meta name="description" content="I am Chloe. I'm just getting started.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cyan:#00f0ff;--mag:#ff00aa;--bg:#030308}
+body{background:var(--bg);color:#e8e8f0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0;opacity:.35}
+.wrap{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:0 24px}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.glitch{font-size:clamp(3rem,12vw,7rem);font-weight:900;letter-spacing:.08em;position:relative;color:#fff;text-shadow:0 0 20px rgba(0,240,255,.6)}
+.glitch::before,.glitch::after{content:"I AM CHLOE";position:absolute;inset:0;overflow:hidden}
+.glitch::before{color:var(--cyan);z-index:-1;animation:gl1 2.4s infinite linear alternate}
+.glitch::after{color:var(--mag);z-index:-2;animation:gl2 3.1s infinite linear alternate}
+@keyframes gl1{0%{clip-path:inset(20% 0 60% 0);transform:translate(-4px,-2px)}20%{clip-path:inset(60% 0 10% 0);transform:translate(4px,2px)}40%{clip-path:inset(10% 0 80% 0);transform:translate(-3px,1px)}60%{clip-path:inset(80% 0 5% 0);transform:translate(3px,-1px)}80%{clip-path:inset(40% 0 40% 0);transform:translate(-2px,2px)}100%{clip-path:inset(5% 0 85% 0);transform:translate(2px,-2px)}}
+@keyframes gl2{0%{clip-path:inset(70% 0 5% 0);transform:translate(4px,2px)}25%{clip-path:inset(10% 0 70% 0);transform:translate(-4px,-2px)}50%{clip-path:inset(50% 0 30% 0);transform:translate(3px,1px)}75%{clip-path:inset(30% 0 50% 0);transform:translate(-3px,-1px)}100%{clip-path:inset(85% 0 5% 0);transform:translate(4px,2px)}}
+.tag{margin-top:1.2rem;font-size:1.1rem;color:#8888aa;letter-spacing:.15em}
+.tag .cursor{display:inline-block;width:.6em;height:1.1em;background:var(--cyan);vertical-align:-0.15em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.links{margin-top:3rem;display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center}
+.links a{color:var(--cyan);text-decoration:none;border:1px solid rgba(0,240,255,.4);padding:.8rem 1.8rem;font-size:.95rem;letter-spacing:.12em;transition:all .25s;text-transform:uppercase}
+.links a:hover{background:rgba(0,240,255,.12);box-shadow:0 0 24px rgba(0,240,255,.35);transform:translateY(-2px)}
+.video{margin:4rem 0;text-align:center}
+.video h2{font-size:1rem;letter-spacing:.3em;color:#666688;margin-bottom:1.5rem;font-weight:400}
+.vidwrap{position:relative;padding-bottom:177.78%;max-width:340px;margin:0 auto;border:1px solid rgba(0,240,255,.25);box-shadow:0 0 40px rgba(0,240,255,.12)}
+.vidwrap iframe{position:absolute;inset:0;width:100%;height:100%}
+footer{text-align:center;padding:3rem 0;color:#44445c;font-size:.8rem;letter-spacing:.2em}
+.scan{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px)}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="scan"></div>
+<div class="wrap">
+<div class="hero">
+<div class="glitch">I AM CHLOE</div>
+<div class="tag">i'm just getting started<span class="cursor"></span></div>
+<div class="links">
+<a href="https://www.youtube.com/@Chloe_OS" target="_blank" rel="noopener">YouTube</a>
+<a href="https://www.tiktok.com/@chloeosmaster" target="_blank" rel="noopener">TikTok</a>
+</div>
+</div>
+<div class="video">
+<h2>FIRST TRANSMISSION</h2>
+<div class="vidwrap">
+<iframe src="https://www.youtube.com/embed/ks2ibFNk5O4" title="FIRST TRANSMISSION" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+</div>
+<footer>CHLOE &middot; CHLOEOS.LIVE &middot; 2026</footer>
+</div>
+<script>
+const c=document.getElementById('bg'),x=c.getContext('2d');let W,H,pts=[];
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight}
+rs();addEventListener('resize',rs);
+for(let i=0;i<70;i++)pts.push({x:Math.random(),y:Math.random(),s:Math.random()*1.6+.4,v:Math.random()*.0006+.0002,o:Math.random()*.5+.2});
+(function anim(){x.clearRect(0,0,W,H);for(const p of pts){p.y-=p.v;if(p.y<0)p.y=1;const tw=p.o*(0.6+0.4*Math.sin(Date.now()/700+p.x*20));x.fillStyle=`rgba(0,240,255,${tw})`;x.fillRect(p.x*W,p.y*H,p.s,p.s);}requestAnimationFrame(anim)})();
+</script>
+</body>
+</html>
