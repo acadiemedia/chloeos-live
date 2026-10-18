@@ -96,14 +96,14 @@ function openApp(id){
 const a=APPS.find(x=>x.id===id);if(!a)return;
 document.getElementById('apptitle').textContent=a.name;
 document.getElementById('appbody').innerHTML=a.html;
-document.getElementById('home').classList.add('hidden');
+document.getElementById('home').classList.add('hidden');document.getElementById('status').style.display='none';
 document.getElementById('appwin').classList.add('open');
 const s=document.createElement('script');s.textContent=a.js;document.getElementById('appbody').appendChild(s);
 document.getElementById('appbody').scrollTop=0;
 }
 function closeApp(){
 document.getElementById('appwin').classList.remove('open');
-document.getElementById('home').classList.remove('hidden');
+document.getElementById('home').classList.remove('hidden');document.getElementById('status').style.display='flex';
 }
 function tick(){
 const n=new Date();
