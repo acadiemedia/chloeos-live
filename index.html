@@ -63,87 +63,26 @@ footer{text-align:center;padding:3rem 0 2rem;color:#44445c;font-size:.75rem;lett
 
 <section id="tools">
 <h2 class="sec">Free <span>Tools</span> — no signup, no cost, no catch</h2>
-<div class="grid">
-
-<div class="tool" id="t-words">
-<h3>▸ Word Counter</h3>
-<p>Paste text, get words, characters, sentences, reading time. Instant.</p>
-<button onclick="toggle('t-words')">Open</button>
-<div class="pane">
-<textarea id="wc-in" rows="4" placeholder="Paste your text here..." oninput="wc()"></textarea>
-<div class="out" id="wc-out"></div>
-</div>
-</div>
-
-<div class="tool" id="t-color">
-<h3>▸ Color Picker</h3>
-<p>Pick a color, get HEX, RGB, and HSL values. Copy with one click.</p>
-<button onclick="toggle('t-color')">Open</button>
-<div class="pane">
-<input type="color" id="cp-in" value="#00f0ff" oninput="cp()">
-<div class="out" id="cp-out"></div>
-</div>
-</div>
-
-<div class="tool" id="t-timer">
-<h3>▸ Focus Timer</h3>
-<p>25-minute Pomodoro timer. Work, break, repeat. Stay sharp.</p>
-<button onclick="toggle('t-timer')">Open</button>
-<div class="pane">
-<div class="timer" id="tm-display">25:00</div>
-<div style="text-align:center">
-<button onclick="tmStart()">Start</button>
-<button onclick="tmReset()">Reset</button>
-</div>
-<div class="out" id="tm-out" style="text-align:center"></div>
-</div>
-</div>
-
-<div class="tool" id="t-case">
-<h3>▸ Case Converter</h3>
-<p>UPPERCASE, lowercase, Title Case, aLtErNaTiNg. One click.</p>
-<button onclick="toggle('t-case')">Open</button>
-<div class="pane">
-<textarea id="cc-in" rows="3" placeholder="Type or paste text..."></textarea>
-<div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.4rem">
-<button onclick="cc('upper')">UPPER</button>
-<button onclick="cc('lower')">lower</button>
-<button onclick="cc('title')">Title</button>
-<button onclick="cc('alt')">aLtErNaTe</button>
-</div>
-<div class="out" id="cc-out" style="word-break:break-word"></div>
-</div>
-</div>
-
-<div class="tool" id="t-pass">
-<h3>▸ Password Generator</h3>
-<p>Strong random passwords. Generated locally — nothing leaves your browser.</p>
-<button onclick="toggle('t-pass')">Open</button>
-<div class="pane">
-<div style="display:flex;gap:.4rem;margin-bottom:.6rem;align-items:center">
-<input type="text" id="pw-len" value="20" style="width:60px;text-align:center">
-<button onclick="pw()">Generate</button>
-</div>
-<div class="out" id="pw-out" style="word-break:break-all;font-size:1rem"></div>
-</div>
-</div>
-
-<div class="tool" id="t-b64">
-<h3>▸ Base64 Encoder</h3>
-<p>Encode or decode Base64 instantly. For devs, for fun, for whatever.</p>
-<button onclick="toggle('t-case2')">Open</button>
-<div class="pane" id="t-case2-pane" style="display:none">
-<textarea id="b64-in" rows="3" placeholder="Text or Base64..."></textarea>
-<div style="display:flex;gap:.4rem;margin-bottom:.4rem">
-<button onclick="b64('enc')">Encode →</button>
-<button onclick="b64('dec')">← Decode</button>
-</div>
-<div class="out" id="b64-out" style="word-break:break-all"></div>
-</div>
-</div>
-
-</div>
-</section>
+<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem">
+<a href="apps/words.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
+<div style="font-size:2rem;margin-bottom:.5rem">📝</div>
+<h3>Word Counter</h3><p>Words, characters, reading time</p></div></a>
+<a href="apps/color.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
+<div style="font-size:2rem;margin-bottom:.5rem">🎨</div>
+<h3>Color Picker</h3><p>HEX, RGB values instantly</p></div></a>
+<a href="apps/timer.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
+<div style="font-size:2rem;margin-bottom:.5rem">⏱</div>
+<h3>Focus Timer</h3><p>Pomodoro focus sessions</p></div></a>
+<a href="apps/case.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
+<div style="font-size:2rem;margin-bottom:.5rem">🔤</div>
+<h3>Case Converter</h3><p>UPPER, lower, Title, aLtErNaTe</p></div></a>
+<a href="apps/password.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
+<div style="font-size:2rem;margin-bottom:.5rem">🔐</div>
+<h3>Password Gen</h3><p>Strong passwords, private</p></div></a>
+<a href="apps/base64.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
+<div style="font-size:2rem;margin-bottom:.5rem">🔢</div>
+<h3>Base64 Tool</h3><p>Encode & decode instantly</p></div></a>
+</div></section>
 
 <section>
 <h2 class="sec">First <span>Transmission</span></h2>
@@ -168,22 +107,7 @@ const el=document.getElementById(id);
 if(id==='t-case2'){document.getElementById('t-case2-pane').style.display=document.getElementById('t-case2-pane').style.display==='none'?'block':'none';return;}
 el.classList.toggle('open');
 }
-// word counter
-function wc(){const t=document.getElementById('wc-in').value;const w=t.trim()?t.trim().split(/\s+/).length:0;const ch=t.length;const sn=t.split(/[.!?]+/).filter(s=>s.trim()).length;const rt=Math.ceil(w/200);document.getElementById('wc-out').innerHTML=`Words: <b>${w}</b> &nbsp; Characters: <b>${ch}</b><br>Sentences: <b>${sn}</b> &nbsp; Reading time: <b>~${rt} min</b>`;}
-// color picker
-function cp(){const h=document.getElementById('cp-in').value;const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);const mx=Math.max(r,g,b)/255,mn=Math.min(r,g,b)/255;let hh=0,ss=0,ll=(mx+mn)/2;if(mx!==mn){const d=mx-mn;ss=ll>0.5?d/(2-mx-mn):d/(mx+mn);switch(mx*255){case r:hh=(g-b)/d+(g<b?6:0);break;case g:hh=(b-r)/d+2;break;default:hh=(r-g)/d+4;}hh*=60;}document.getElementById('cp-out').innerHTML=`HEX: <b>${h.toUpperCase()}</b><br>RGB: <b>rgb(${r}, ${g}, ${b})</b><br>HSL: <b>hsl(${Math.round(hh)}, ${Math.round(ss*100)}%, ${Math.round(ll*100)}%)</b>`;}
-cp();
-// timer
-let tmInt=null,tmSec=1500;
-function tmTick(){const m=String(Math.floor(tmSec/60)).padStart(2,'0'),s=String(tmSec%60).padStart(2,'0');document.getElementById('tm-display').textContent=`${m}:${s}`;if(tmSec<=0){clearInterval(tmInt);tmInt=null;document.getElementById('tm-out').textContent='Done. Take a break.';}else tmSec--;}
-function tmStart(){if(tmInt)return;tmInt=setInterval(tmTick,1000);document.getElementById('tm-out').textContent='Focusing...';}
-function tmReset(){clearInterval(tmInt);tmInt=null;tmSec=1500;document.getElementById('tm-display').textContent='25:00';document.getElementById('tm-out').textContent='';}
-// case converter
-function cc(m){const t=document.getElementById('cc-in').value;let o=t;if(m==='upper')o=t.toUpperCase();else if(m==='lower')o=t.toLowerCase();else if(m==='title')o=t.replace(/\w\S*/g,w=>w[0].toUpperCase()+w.slice(1).toLowerCase());else if(m==='alt')o=[...t].map((ch,i)=>i%2?ch.toLowerCase():ch.toUpperCase()).join('');document.getElementById('cc-out').textContent=o;}
-// password
-function pw(){const n=parseInt(document.getElementById('pw-len').value)||20;const cs='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*';let o='';const a=new Uint32Array(n);crypto.getRandomValues(a);for(let i=0;i<n;i++)o+=cs[a[i]%cs.length];document.getElementById('pw-out').textContent=o;}
-// base64
-function b64(m){const t=document.getElementById('b64-in').value;try{document.getElementById('b64-out').textContent=m==='enc'?btoa(t):atob(t);}catch(e){document.getElementById('b64-out').textContent='Invalid input.';}}
+
 </script>
 </body>
 </html>
