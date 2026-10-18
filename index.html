@@ -21,6 +21,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 /* home screen */
 #home{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;padding:calc(52px + env(safe-area-inset-top, 0px)) 20px 20px;transition:opacity .3s,transform .3s}
 #home.hidden{opacity:0;transform:scale(1.08);pointer-events:none}
+#scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
 #clock{text-align:center;margin:18px 0 6px}
 #clock .time{font-size:64px;font-weight:200;letter-spacing:2px}
 #clock .date{font-size:14px;color:rgba(255,255,255,.7);margin-top:4px}
@@ -32,7 +33,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .app .icon{width:62px;height:62px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:transform .15s}
 .app:active .icon{transform:scale(.88)}
 .app .lbl{font-size:11px;color:#fff;text-align:center;line-height:1.2;max-width:72px}
-#dock{margin-top:auto;background:rgba(255,255,255,.14);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:26px;padding:12px 18px;display:flex;justify-content:center;gap:20px;max-width:420px;margin-left:auto;margin-right:auto;width:100%}
+#dock{margin-top:12px;background:rgba(255,255,255,.14);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:26px;padding:12px 18px;display:flex;justify-content:center;gap:20px;max-width:420px;margin-left:auto;margin-right:auto;width:100%;flex-shrink:0}
 /* app window */
 #appwin{position:fixed;inset:0;z-index:20;background:#f5f5f7;color:#1d1d1f;display:none;flex-direction:column}
 #appwin.open{position:fixed}
@@ -65,9 +66,11 @@ textarea:focus,input:focus{outline:none;border-color:#0072ff}
 </div>
 
 <div id="home">
+<div id="scroll">
 <div id="clock"><div class="time" id="ctime">--:--</div><div class="date" id="cdate"></div></div>
 <div id="brand"><div class="name">CHLOEOS</div><div class="sub">FREE TOOLS</div></div>
 <div id="grid"></div>
+</div>
 <div id="dock"></div>
 </div>
 
