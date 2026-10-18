@@ -79,25 +79,7 @@ textarea:focus,input:focus{outline:none;border-color:#0072ff}
 
 <script>
 
-// ChloeOS AI Tools - Gemini API helper
-function getApiKey(){return localStorage.getItem('chloeos_gemini_key')||'';}
-function setApiKey(k){localStorage.setItem('chloeos_gemini_key',k);}
-async function callGemini(prompt,sysPrompt){
-  const key=getApiKey();
-  if(!key) throw new Error('NO_KEY');
-  const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({contents:[{parts:[{text:(sysPrompt?sysPrompt+'\n\n':'')+prompt}]}],generationConfig:{temperature:0.7,maxOutputTokens:2048}})
-  });
-  if(!res.ok) throw new Error('API_ERROR_'+res.status);
-  const d=await res.json();
-  return d.candidates[0].content.parts[0].text;
-}
-function aiKeyUI(){
-  const k=getApiKey();
-  if(k) return '<div style="text-align:center;color:#34c759;font-size:13px;margin-bottom:12px">✓ API key saved</div>';
-  return '<div class="card" style="margin-bottom:12px"><div style="font-size:14px;margin-bottom:8px"><b>Enter your free Gemini API key</b><br><span style="color:#86868b">Get one free at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#0072ff">aistudio.google.com</a>. Stored only on your device.</span></div><input type="text" id="ai-key-in" placeholder="Paste key here..." style="margin-bottom:8px"><button class="btn" onclick="setApiKey(document.getElementById(\'ai-key-in\').value.trim());openApp(currentAppId)">Save Key</button></div>';
-}
+
 
 
 
