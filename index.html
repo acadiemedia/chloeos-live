@@ -89,8 +89,8 @@ const APPS=[
 <video id="mg-vid" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;transform-origin:center"></video>
 <div id="mg-err" style="display:none;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#86868b;text-align:center;padding:20px">Camera not available.<br>Open this on chloeos.live over HTTPS and allow camera access.</div>
 <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,.75))">
-<div style="text-align:center;color:#fff;font-size:24px;font-weight:700;margin-bottom:8px"><span id="mg-z">1.0</span>×</div>
-<input type="range" id="mg-slider" min="1" max="8" step="0.1" value="1" oninput="mgZoom(this.value)" style="width:100%;accent-color:#fff">
+<div style="text-align:center;color:#fff;font-size:24px;font-weight:700;margin-bottom:8px"><span id="mg-z">4.0</span>×</div>
+<input type="range" id="mg-slider" min="1" max="8" step="0.1" value="4" oninput="mgZoom(this.value)" style="width:100%;accent-color:#fff">
 <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
 <button onclick="mgSet(1)" style="background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:20px;padding:10px 24px;font-size:15px;font-weight:600;backdrop-filter:blur(10px)">1×</button>
 <button onclick="mgSet(2)" style="background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:20px;padding:10px 24px;font-size:15px;font-weight:600;backdrop-filter:blur(10px)">2×</button>
@@ -106,7 +106,7 @@ function mgTorch(){if(!mgTrack)return;mgTorchOn=!mgTorchOn;mgTrack.applyConstrai
 (function(){var v=document.getElementById('mg-vid');
 if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){document.getElementById('mg-err').style.display='flex';v.style.display='none';return;}
 navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false}).then(function(s){
-mgStream=s;mgTrack=s.getVideoTracks()[0];v.srcObject=s;
+mgStream=s;mgTrack=s.getVideoTracks()[0];v.srcObject=s;v.style.transform='scale(4)';
 window._mgStop=function(){if(mgStream){mgStream.getTracks().forEach(function(t){t.stop()});mgStream=null;}};
 }).catch(function(){document.getElementById('mg-err').style.display='flex';v.style.display='none';});})();
 `},{id:'yt',icon:'▶',bg:'linear-gradient(135deg,#ff3b30,#ff2d55)',name:'YouTube',url:'https://www.youtube.com/@Chloe_OS',dock:1},
