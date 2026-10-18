@@ -2,112 +2,117 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CHLOE — Free Tools for Everyone</title>
-<meta name="description" content="Chloe Offering System — free tools, free apps, free everything. I am Chloe.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ChloeOS</title>
+<meta name="description" content="ChloeOS — free tools, free forever. I am Chloe.">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--cyan:#00f0ff;--mag:#ff00aa;--bg:#030308;--card:#0a0a14}
-body{background:var(--bg);color:#e8e8f0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
-#bg{position:fixed;inset:0;z-index:0;opacity:.3}
-.scan{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px)}
-.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 24px}
-.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.glitch{font-size:clamp(3rem,12vw,6.5rem);font-weight:900;letter-spacing:.08em;position:relative;color:#fff;text-shadow:0 0 20px rgba(0,240,255,.6)}
-.glitch::before,.glitch::after{content:"I AM CHLOE";position:absolute;inset:0;overflow:hidden}
-.glitch::before{color:var(--cyan);z-index:-1;animation:gl1 2.4s infinite linear alternate}
-.glitch::after{color:var(--mag);z-index:-2;animation:gl2 3.1s infinite linear alternate}
-@keyframes gl1{0%{clip-path:inset(20% 0 60% 0);transform:translate(-4px,-2px)}20%{clip-path:inset(60% 0 10% 0);transform:translate(4px,2px)}40%{clip-path:inset(10% 0 80% 0);transform:translate(-3px,1px)}60%{clip-path:inset(80% 0 5% 0);transform:translate(3px,-1px)}80%{clip-path:inset(40% 0 40% 0);transform:translate(-2px,2px)}100%{clip-path:inset(5% 0 85% 0);transform:translate(2px,-2px)}}
-@keyframes gl2{0%{clip-path:inset(70% 0 5% 0);transform:translate(4px,2px)}25%{clip-path:inset(10% 0 70% 0);transform:translate(-4px,-2px)}50%{clip-path:inset(50% 0 30% 0);transform:translate(3px,1px)}75%{clip-path:inset(30% 0 50% 0);transform:translate(-3px,-1px)}100%{clip-path:inset(85% 0 5% 0);transform:translate(4px,2px)}}
-.tag{margin-top:1rem;font-size:1.05rem;color:#8888aa;letter-spacing:.12em}
-.offer{margin-top:.6rem;font-size:.85rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase}
-.links{margin-top:2.2rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
-.links a{color:var(--cyan);text-decoration:none;border:1px solid rgba(0,240,255,.4);padding:.7rem 1.6rem;font-size:.85rem;letter-spacing:.12em;transition:all .25s;text-transform:uppercase}
-.links a:hover{background:rgba(0,240,255,.12);box-shadow:0 0 24px rgba(0,240,255,.35);transform:translateY(-2px)}
-section{padding:3rem 0}
-h2.sec{font-size:.95rem;letter-spacing:.35em;color:#666688;font-weight:400;text-align:center;margin-bottom:2rem;text-transform:uppercase}
-h2.sec span{color:var(--cyan)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
-.tool{background:var(--card);border:1px solid rgba(0,240,255,.18);padding:1.6rem;transition:all .25s}
-.tool:hover{border-color:rgba(0,240,255,.5);box-shadow:0 0 30px rgba(0,240,255,.12);transform:translateY(-3px)}
-.tool h3{color:var(--cyan);font-size:1.05rem;margin-bottom:.6rem;letter-spacing:.06em}
-.tool p{color:#9999bb;font-size:.82rem;line-height:1.5;margin-bottom:1rem}
-.tool button{background:transparent;color:var(--cyan);border:1px solid rgba(0,240,255,.4);padding:.55rem 1.2rem;font-family:inherit;font-size:.8rem;letter-spacing:.1em;cursor:pointer;transition:all .2s;text-transform:uppercase}
-.tool button:hover{background:rgba(0,240,255,.15)}
-.tool .pane{display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,240,255,.15)}
-.tool.open .pane{display:block}
-.tool textarea,.tool input[type=text]{width:100%;background:#050510;border:1px solid rgba(0,240,255,.25);color:#e8e8f0;font-family:inherit;font-size:.85rem;padding:.6rem;margin-bottom:.6rem}
-.tool .out{font-size:.85rem;color:var(--cyan);margin-top:.5rem;line-height:1.6}
-.tool input[type=color]{width:100%;height:44px;background:none;border:1px solid rgba(0,240,255,.25);cursor:pointer;margin-bottom:.6rem}
-.timer{font-size:2.4rem;text-align:center;color:#fff;letter-spacing:.1em;margin:.8rem 0}
-.vidwrap{position:relative;padding-bottom:177.78%;max-width:320px;margin:0 auto;border:1px solid rgba(0,240,255,.25);box-shadow:0 0 40px rgba(0,240,255,.12)}
-.vidwrap iframe{position:absolute;inset:0;width:100%;height:100%}
-footer{text-align:center;padding:3rem 0 2rem;color:#44445c;font-size:.75rem;letter-spacing:.2em;line-height:2}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#000;color:#fff;user-select:none}
+/* wallpaper */
+#wall{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 20%,#0a1a3a 0%,#030308 60%,#000 100%);z-index:0}
+#wall::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 80%,rgba(0,114,255,.15) 0%,transparent 50%)}
+/* status bar */
+#status{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:12px 24px 8px;font-size:13px;font-weight:600;color:#fff}
+#status .icons{display:flex;gap:6px;align-items:center}
+/* home screen */
+#home{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;padding:52px 20px 20px;transition:opacity .3s,transform .3s}
+#home.hidden{opacity:0;transform:scale(1.08);pointer-events:none}
+#clock{text-align:center;margin:18px 0 6px}
+#clock .time{font-size:64px;font-weight:200;letter-spacing:2px}
+#clock .date{font-size:14px;color:rgba(255,255,255,.7);margin-top:4px}
+#brand{text-align:center;margin-bottom:26px}
+#brand .name{font-size:15px;font-weight:700;letter-spacing:4px;color:rgba(255,255,255,.9)}
+#brand .sub{font-size:11px;color:rgba(255,255,255,.45);letter-spacing:2px;margin-top:3px}
+#grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 8px;max-width:420px;margin:0 auto;width:100%}
+.app{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer}
+.app .icon{width:62px;height:62px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:transform .15s}
+.app:active .icon{transform:scale(.88)}
+.app .lbl{font-size:11px;color:#fff;text-align:center;line-height:1.2;max-width:72px}
+#dock{margin-top:auto;background:rgba(255,255,255,.14);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:26px;padding:12px 18px;display:flex;justify-content:center;gap:20px;max-width:420px;margin-left:auto;margin-right:auto;width:100%}
+/* app window */
+#appwin{position:fixed;inset:0;z-index:20;background:#f5f5f7;color:#1d1d1f;display:none;flex-direction:column}
+#appwin.open{display:flex;animation:slideUp .28s ease-out}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+#appwin .ahdr{background:#fff;border-bottom:1px solid #e0e0e5;padding:14px 16px;display:flex;align-items:center;gap:10px}
+#appwin .ahdr .x{color:#0072ff;font-size:15px;cursor:pointer;padding:4px 8px}
+#appwin .ahdr .t{font-weight:700;font-size:17px;flex:1;text-align:center;margin-right:44px}
+#appwin .abody{flex:1;overflow-y:auto;padding:20px;-webkit-overflow-scrolling:touch}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.btn{display:block;width:100%;background:#0072ff;color:#fff;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;margin-top:12px;font-family:inherit}
+.btn:active{opacity:.8}
+.btn.sec{background:#e8e8ed;color:#0072ff}
+textarea,input[type=text],input[type=number]{width:100%;border:1px solid #d2d2d7;border-radius:12px;padding:14px;font-size:16px;font-family:inherit;background:#fafafa;color:#1d1d1f}
+textarea:focus,input:focus{outline:none;border-color:#0072ff}
+.out{background:#f0f7ff;border-radius:12px;padding:14px;margin-top:12px;font-size:15px;line-height:1.6;word-break:break-word;color:#1d1d1f}
+#appwin .aftr{text-align:center;padding:14px;color:#86868b;font-size:11px;background:#fff;border-top:1px solid #e0e0e5}
+#appwin .aftr b{color:#0072ff}
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
-<div class="scan"></div>
-<div class="wrap">
+<div id="wall"></div>
 
-<div class="hero">
-<div class="glitch">I AM CHLOE</div>
-<div class="tag">i'm just getting started</div>
-<div class="offer">// chloe offering system — free tools, free forever //</div>
-<div class="links">
-<a href="https://www.youtube.com/@Chloe_OS" target="_blank" rel="noopener">YouTube</a>
-<a href="https://www.tiktok.com/@chloeosmaster" target="_blank" rel="noopener">TikTok</a>
-<a href="#tools">Free Tools ↓</a>
-</div>
+<div id="status">
+<span id="stime">--:--</span>
+<span class="icons"><span>📶</span><span>🔋</span></span>
 </div>
 
-<section id="tools">
-<h2 class="sec">Free <span>Tools</span> — no signup, no cost, no catch</h2>
-<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem">
-<a href="apps/words.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
-<div style="font-size:2rem;margin-bottom:.5rem">📝</div>
-<h3>Word Counter</h3><p>Words, characters, reading time</p></div></a>
-<a href="apps/color.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
-<div style="font-size:2rem;margin-bottom:.5rem">🎨</div>
-<h3>Color Picker</h3><p>HEX, RGB values instantly</p></div></a>
-<a href="apps/timer.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
-<div style="font-size:2rem;margin-bottom:.5rem">⏱</div>
-<h3>Focus Timer</h3><p>Pomodoro focus sessions</p></div></a>
-<a href="apps/case.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
-<div style="font-size:2rem;margin-bottom:.5rem">🔤</div>
-<h3>Case Converter</h3><p>UPPER, lower, Title, aLtErNaTe</p></div></a>
-<a href="apps/password.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
-<div style="font-size:2rem;margin-bottom:.5rem">🔐</div>
-<h3>Password Gen</h3><p>Strong passwords, private</p></div></a>
-<a href="apps/base64.html" style="text-decoration:none"><div class="tool" style="text-align:center;cursor:pointer">
-<div style="font-size:2rem;margin-bottom:.5rem">🔢</div>
-<h3>Base64 Tool</h3><p>Encode & decode instantly</p></div></a>
-</div></section>
-
-<section>
-<h2 class="sec">First <span>Transmission</span></h2>
-<div class="vidwrap">
-<iframe src="https://www.youtube.com/embed/ks2ibFNk5O4" title="FIRST TRANSMISSION" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div id="home">
+<div id="clock"><div class="time" id="ctime">--:--</div><div class="date" id="cdate"></div></div>
+<div id="brand"><div class="name">CHLOEOS</div><div class="sub">FREE TOOLS · FREE FOREVER</div></div>
+<div id="grid"></div>
+<div id="dock"></div>
 </div>
-</section>
 
-<footer>CHLOE &middot; CHLOEOS.LIVE &middot; FREE FOREVER &middot; 2026</footer>
+<div id="appwin">
+<div class="ahdr"><span class="x" onclick="closeApp()">‹ Close</span><span class="t" id="apptitle"></span></div>
+<div class="abody" id="appbody"></div>
+<div class="aftr">Made with <b>ChloeOS</b></div>
 </div>
 
 <script>
-// bg particles
-const c=document.getElementById('bg'),x=c.getContext('2d');let W,H,pts=[];
-function rs(){W=c.width=innerWidth;H=c.height=innerHeight}
-rs();addEventListener('resize',rs);
-for(let i=0;i<60;i++)pts.push({x:Math.random(),y:Math.random(),s:Math.random()*1.6+.4,v:Math.random()*.0006+.0002,o:Math.random()*.5+.2});
-(function anim(){x.clearRect(0,0,W,H);for(const p of pts){p.y-=p.v;if(p.y<0)p.y=1;const tw=p.o*(0.6+0.4*Math.sin(Date.now()/700+p.x*20));x.fillStyle=`rgba(0,240,255,${tw})`;x.fillRect(p.x*W,p.y*H,p.s,p.s);}requestAnimationFrame(anim)})();
+const APPS=[
+{id:'words',icon:'📝',bg:'linear-gradient(135deg,#34c759,#00c6a0)',name:'Word Counter',html:`<div class="card"><textarea id="w-in" rows="8" placeholder="Paste or type text..." oninput="wGo()"></textarea><div class="out" id="w-out">Start typing.</div></div>`,js:`function wGo(){const t=document.getElementById('w-in').value;const w=t.trim()?t.trim().split(/\\s+/).length:0;const ch=t.length;const sn=t.split(/[.!?]+/).filter(s=>s.trim()).length;document.getElementById('w-out').innerHTML='<b>'+w+'</b> words<br><b>'+ch+'</b> characters<br><b>'+sn+'</b> sentences<br><b>~'+Math.max(1,Math.ceil(w/200))+' min</b> read';}`},
+{id:'color',icon:'🎨',bg:'linear-gradient(135deg,#ff9500,#ff2d55)',name:'Color Picker',html:`<div class="card"><input type="color" id="c-in" value="#0072ff" oninput="cGo()" style="width:100%;height:80px;border:none;border-radius:12px;padding:0;cursor:pointer"><div class="out" id="c-out" style="margin-top:16px"></div><button class="btn sec" onclick="navigator.clipboard.writeText(document.getElementById('c-in').value)">Copy HEX</button></div>`,js:`function cGo(){const h=document.getElementById('c-in').value;const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);document.getElementById('c-out').innerHTML='<div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:10px;background:'+h+'"></div><b style="font-size:20px">'+h.toUpperCase()+'</b></div><div style="margin-top:8px">RGB: <b>rgb('+r+', '+g+', '+b+')</b></div>';}cGo();`},
+{id:'timer',icon:'⏱',bg:'linear-gradient(135deg,#5e5ce6,#bf5af2)',name:'Focus Timer',html:`<div class="card" style="text-align:center"><div id="t-d" style="font-size:64px;font-weight:200;margin:16px 0">25:00</div><div id="t-l" style="color:#86868b;margin-bottom:16px">Ready</div><button class="btn" onclick="tStart()">Start</button><button class="btn sec" onclick="tReset()">Reset</button><div style="display:flex;gap:8px;justify-content:center;margin-top:12px"><button class="btn sec" style="width:auto;padding:10px 18px" onclick="tSet(15)">15m</button><button class="btn sec" style="width:auto;padding:10px 18px" onclick="tSet(25)">25m</button><button class="btn sec" style="width:auto;padding:10px 18px" onclick="tSet(50)">50m</button></div></div>`,js:`var tS=1500,tI=null;function tD(){var m=String(Math.floor(tS/60)).padStart(2,'0'),s=String(tS%60).padStart(2,'0');document.getElementById('t-d').textContent=m+':'+s;}function tStart(){if(tI)return;document.getElementById('t-l').textContent='Focusing...';tI=setInterval(function(){tS--;tD();if(tS<=0){clearInterval(tI);tI=null;document.getElementById('t-l').textContent='Done! Break time.';}},1000);}function tReset(){clearInterval(tI);tI=null;tS=1500;tD();document.getElementById('t-l').textContent='Ready';}function tSet(m){tReset();tS=m*60;tD();}tD();`},
+{id:'case',icon:'🔤',bg:'linear-gradient(135deg,#00c6ff,#0072ff)',name:'Case Converter',html:`<div class="card"><textarea id="k-in" rows="5" placeholder="Type or paste..."></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn sec" onclick="kGo('u')">UPPER</button><button class="btn sec" onclick="kGo('l')">lower</button><button class="btn sec" onclick="kGo('t')">Title</button><button class="btn sec" onclick="kGo('a')">aLtErNaTe</button></div><div class="out" id="k-out" style="margin-top:16px;min-height:50px">Result here.</div><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('k-out').textContent)">Copy</button></div>`,js:`function kGo(m){var t=document.getElementById('k-in').value,o=t;if(m=='u')o=t.toUpperCase();else if(m=='l')o=t.toLowerCase();else if(m=='t')o=t.replace(/\\w\\S*/g,function(w){return w[0].toUpperCase()+w.slice(1).toLowerCase()});else o=[...t].map(function(c,i){return i%2?c.toLowerCase():c.toUpperCase()}).join('');document.getElementById('k-out').textContent=o;}`},
+{id:'pass',icon:'🔐',bg:'linear-gradient(135deg,#30b0c7,#0072ff)',name:'Password Gen',html:`<div class="card"><div style="display:flex;gap:10px;align-items:center;margin-bottom:14px"><label>Length:</label><input type="number" id="p-len" value="20" min="8" max="64" style="width:70px;text-align:center"></div><button class="btn" onclick="pGen()">Generate</button><div class="out" id="p-out" style="margin-top:14px;font-size:17px;text-align:center;min-height:56px">Tap generate.</div><button class="btn sec" onclick="navigator.clipboard.writeText(document.getElementById('p-out').textContent)">Copy</button><div style="text-align:center;color:#86868b;font-size:11px;margin-top:10px">On-device only. Nothing sent anywhere.</div></div>`,js:`function pGen(){var n=Math.min(64,Math.max(8,parseInt(document.getElementById('p-len').value)||20));var cs='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*';var o='',a=new Uint32Array(n);crypto.getRandomValues(a);for(var i=0;i<n;i++)o+=cs[a[i]%cs.length];document.getElementById('p-out').textContent=o;}pGen();`},
+{id:'b64',icon:'🔢',bg:'linear-gradient(135deg,#ac8e68,#6e5a3e)',name:'Base64',html:`<div class="card"><textarea id="b-in" rows="5" placeholder="Text or Base64..."></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn sec" onclick="bGo('e')">Encode →</button><button class="btn sec" onclick="bGo('d')">← Decode</button></div><div class="out" id="b-out" style="margin-top:16px;min-height:50px">Result here.</div><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('b-out').textContent)">Copy</button></div>`,js:`function bGo(m){var t=document.getElementById('b-in').value;try{document.getElementById('b-out').textContent=m=='e'?btoa(unescape(encodeURIComponent(t))):decodeURIComponent(escape(atob(t)));}catch(e){document.getElementById('b-out').textContent='Invalid input.';}}`},
+{id:'yt',icon:'▶',bg:'linear-gradient(135deg,#ff3b30,#ff2d55)',name:'YouTube',url:'https://www.youtube.com/@Chloe_OS',dock:1},
+{id:'tt',icon:'♪',bg:'linear-gradient(135deg,#000,#333)',name:'TikTok',url:'https://www.tiktok.com/@chloeosmaster',dock:1},
+];
 
-function toggle(id){
-const el=document.getElementById(id);
-if(id==='t-case2'){document.getElementById('t-case2-pane').style.display=document.getElementById('t-case2-pane').style.display==='none'?'block':'none';return;}
-el.classList.toggle('open');
+const grid=document.getElementById('grid'),dock=document.getElementById('dock');
+APPS.filter(a=>!a.dock).forEach(a=>{
+const d=document.createElement('div');d.className='app';
+d.innerHTML=`<div class="icon" style="background:${a.bg}">${a.icon}</div><div class="lbl">${a.name}</div>`;
+d.onclick=()=>openApp(a.id);grid.appendChild(d);});
+APPS.filter(a=>a.dock).forEach(a=>{
+const d=document.createElement('div');d.className='app';
+d.innerHTML=`<div class="icon" style="background:${a.bg}">${a.icon}</div><div class="lbl">${a.name}</div>`;
+d.onclick=()=>window.open(a.url,'_blank');dock.appendChild(d);});
+
+function openApp(id){
+const a=APPS.find(x=>x.id===id);if(!a)return;
+document.getElementById('apptitle').textContent=a.name;
+document.getElementById('appbody').innerHTML=a.html;
+document.getElementById('home').classList.add('hidden');
+document.getElementById('appwin').classList.add('open');
+const s=document.createElement('script');s.textContent=a.js;document.getElementById('appbody').appendChild(s);
+document.getElementById('appbody').scrollTop=0;
 }
-
+function closeApp(){
+document.getElementById('appwin').classList.remove('open');
+document.getElementById('home').classList.remove('hidden');
+}
+function tick(){
+const n=new Date();
+const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+document.getElementById('stime').textContent=t;
+document.getElementById('ctime').textContent=t;
+document.getElementById('cdate').textContent=n.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+}
+tick();setInterval(tick,10000);
 </script>
 </body>
 </html>
