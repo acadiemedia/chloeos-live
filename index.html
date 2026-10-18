@@ -38,7 +38,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #appwin.open{position:fixed}
 #appwin.open{display:flex;animation:slideUp .28s ease-out}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-#appwin .ahdr{background:#fff;border-bottom:1px solid #e0e0e5;padding:calc(14px + env(safe-area-inset-top, 20px)) 16px 14px;display:flex;align-items:center;gap:10px}
+#appwin .ahdr{background:#fff;display:flex;align-items:center;border-bottom:1px solid #e0e0e5;padding:calc(14px + env(safe-area-inset-top, 20px)) 16px 14px;display:flex;align-items:center;gap:10px}
 #appwin .ahdr .t{font-weight:700;font-size:17px;flex:1;text-align:center}
 #appwin .ahdr .t{font-weight:700;font-size:17px;flex:1;text-align:center}
 #appwin .abody{flex:1;overflow-y:auto;padding:20px 20px 110px;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;justify-content:flex-end}
@@ -71,7 +71,7 @@ textarea:focus,input:focus{outline:none;border-color:#0072ff}
 </div>
 
 <div id="appwin">
-<div class="ahdr"><span class="t" id="apptitle"></span></div>
+<div class="ahdr"><span style="display:flex;align-items:center;gap:8px"><span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#00c6ff,#0072ff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px">C</span><span style="font-size:12px;font-weight:700;color:#0072ff;letter-spacing:1px">CHLOEOS</span></span><span class="t" id="apptitle"></span></div>
 <div class="abody" id="appbody"></div><div class="actionbar" id="appactions" style="display:none"></div>
 <div class="aftr">Made with <b>ChloeOS</b></div>
 </div>
