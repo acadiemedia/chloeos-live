@@ -78,7 +78,31 @@ const APPS=[
 {id:'case',icon:'🔤',bg:'linear-gradient(135deg,#00c6ff,#0072ff)',name:'Case Converter',html:`<div class="card"><textarea id="k-in" rows="5" placeholder="Type or paste..."></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn sec" onclick="kGo('u')">UPPER</button><button class="btn sec" onclick="kGo('l')">lower</button><button class="btn sec" onclick="kGo('t')">Title</button><button class="btn sec" onclick="kGo('a')">aLtErNaTe</button></div><div class="out" id="k-out" style="margin-top:16px;min-height:50px">Result here.</div><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('k-out').textContent)">Copy</button></div>`,js:`function kGo(m){var t=document.getElementById('k-in').value,o=t;if(m=='u')o=t.toUpperCase();else if(m=='l')o=t.toLowerCase();else if(m=='t')o=t.replace(/\\w\\S*/g,function(w){return w[0].toUpperCase()+w.slice(1).toLowerCase()});else o=[...t].map(function(c,i){return i%2?c.toLowerCase():c.toUpperCase()}).join('');document.getElementById('k-out').textContent=o;}`},
 {id:'pass',icon:'🔐',bg:'linear-gradient(135deg,#30b0c7,#0072ff)',name:'Password Gen',html:`<div class="card"><div style="display:flex;gap:10px;align-items:center;margin-bottom:14px"><label>Length:</label><input type="number" id="p-len" value="20" min="8" max="64" style="width:70px;text-align:center"></div><button class="btn" onclick="pGen()">Generate</button><div class="out" id="p-out" style="margin-top:14px;font-size:17px;text-align:center;min-height:56px">Tap generate.</div><button class="btn sec" onclick="navigator.clipboard.writeText(document.getElementById('p-out').textContent)">Copy</button><div style="text-align:center;color:#86868b;font-size:11px;margin-top:10px">On-device only. Nothing sent anywhere.</div></div>`,js:`function pGen(){var n=Math.min(64,Math.max(8,parseInt(document.getElementById('p-len').value)||20));var cs='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*';var o='',a=new Uint32Array(n);crypto.getRandomValues(a);for(var i=0;i<n;i++)o+=cs[a[i]%cs.length];document.getElementById('p-out').textContent=o;}pGen();`},
 {id:'b64',icon:'🔢',bg:'linear-gradient(135deg,#ac8e68,#6e5a3e)',name:'Base64',html:`<div class="card"><textarea id="b-in" rows="5" placeholder="Text or Base64..."></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn sec" onclick="bGo('e')">Encode →</button><button class="btn sec" onclick="bGo('d')">← Decode</button></div><div class="out" id="b-out" style="margin-top:16px;min-height:50px">Result here.</div><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('b-out').textContent)">Copy</button></div>`,js:`function bGo(m){var t=document.getElementById('b-in').value;try{document.getElementById('b-out').textContent=m=='e'?btoa(unescape(encodeURIComponent(t))):decodeURIComponent(escape(atob(t)));}catch(e){document.getElementById('b-out').textContent='Invalid input.';}}`},
-{id:'yt',icon:'▶',bg:'linear-gradient(135deg,#ff3b30,#ff2d55)',name:'YouTube',url:'https://www.youtube.com/@Chloe_OS',dock:1},
+{id:'mag',icon:'🔍',bg:'linear-gradient(135deg,#1d1d1f,#3a3a3c)',name:'Magnifier',html:`<div class="card" style="padding:0;overflow:hidden;position:relative;background:#000">
+<video id="mg-vid" autoplay playsinline muted style="width:100%;display:block;transform-origin:center"></video>
+<div id="mg-err" style="display:none;padding:40px 20px;text-align:center;color:#86868b">Camera not available.<br>Allow camera access to use the magnifier.</div>
+</div>
+<div class="card" style="margin-top:12px">
+<div style="text-align:center;font-size:28px;font-weight:700;margin-bottom:4px"><span id="mg-z">1.0</span>×</div>
+<input type="range" id="mg-slider" min="1" max="8" step="0.1" value="1" oninput="mgZoom(this.value)" style="width:100%;margin:8px 0">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">
+<button class="btn sec" onclick="mgSet(1)">1×</button>
+<button class="btn sec" onclick="mgSet(2)">2×</button>
+<button class="btn sec" onclick="mgSet(4)">4×</button>
+</div>
+<button class="btn sec" onclick="mgTorch()">🔦 Toggle Light</button>
+</div>`,js:`
+var mgStream=null,mgTrack=null,mgTorchOn=false;
+function mgZoom(v){document.getElementById('mg-z').textContent=parseFloat(v).toFixed(1);document.getElementById('mg-vid').style.transform='scale('+v+')';}
+function mgSet(v){document.getElementById('mg-slider').value=v;mgZoom(v);}
+function mgTorch(){if(!mgTrack)return;mgTorchOn=!mgTorchOn;mgTrack.applyConstraints({advanced:[{torch:mgTorchOn}]}).catch(function(){});}
+(function(){var v=document.getElementById('mg-vid');
+if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){document.getElementById('mg-err').style.display='block';v.style.display='none';return;}
+navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false}).then(function(s){
+mgStream=s;mgTrack=s.getVideoTracks()[0];v.srcObject=s;
+window._mgStop=function(){if(mgStream){mgStream.getTracks().forEach(function(t){t.stop()});mgStream=null;}};
+}).catch(function(){document.getElementById('mg-err').style.display='block';v.style.display='none';});})();
+`},{id:'yt',icon:'▶',bg:'linear-gradient(135deg,#ff3b30,#ff2d55)',name:'YouTube',url:'https://www.youtube.com/@Chloe_OS',dock:1},
 {id:'tt',icon:'♪',bg:'linear-gradient(135deg,#000,#333)',name:'TikTok',url:'https://www.tiktok.com/@chloeosmaster',dock:1},
 ];
 
@@ -101,7 +125,7 @@ document.getElementById('appwin').classList.add('open');
 const s=document.createElement('script');s.textContent=a.js;document.getElementById('appbody').appendChild(s);
 document.getElementById('appbody').scrollTop=0;
 }
-function closeApp(){
+function closeApp(){if(window._mgStop){window._mgStop();window._mgStop=null;}
 document.getElementById('appwin').classList.remove('open');
 document.getElementById('home').classList.remove('hidden');document.getElementById('status').style.display='flex';
 }
